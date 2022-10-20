@@ -4,3 +4,5 @@ Los clústeres son grupos de servidores que se gestionan juntos y participan en
 la gestión de la carga de trabajo.
 
 npm i dotenv: Crear variables de entorno custom
+
+npm i body-parser: Analiza los cuerpos de las solicitudes entrantes en un middleware antes que sus controladores
