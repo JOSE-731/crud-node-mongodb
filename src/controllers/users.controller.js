@@ -1,3 +1,4 @@
+/* Importing the userSchema from the user.js file in the models folder. */
 import userSchema from '../models/user.js';
 
 /**
@@ -10,6 +11,13 @@ export const getUsers = async (req, res) => {
     res.send(users)
 }
 
+/**
+ * It takes the id from the request params, finds the user by id, and sends the user back to the
+ * client.
+ * @param req - The request object. This object represents the HTTP request and has properties for the
+ * request query string, parameters, body, HTTP headers, and so on.
+ * @param res - The response object.
+ */
 export const getUser = async (req, res) =>{
     const {id} = req.params;
     const user = await  userSchema.findById(id);
