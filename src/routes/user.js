@@ -1,56 +1,17 @@
 import express from 'express';
+/* Importing the userSchema from the user.js file. */
 import  userSchema from '../models/user.js';
-import {getUsers} from '../controllers/users.controller.js'
+/* Importing the functions from the users.controller.js file. */
+import {getUsers, createUser, editUser, deleteUser, getUser} from '../controllers/users.controller.js'
 
+/* Creating a new router object. */
 const router = express.Router();
 
-//Test
+/* Creating a new route for the user. */
 router.get('/users', getUsers);
-
-//Creando usuarios
-router.post('/users', (req, res) => {
-    //Con la siguiente linea crearemos un usuario con la estructura de datos definidas en el modelo
-    const user = userSchema(req.body);
-    user
-        .save()
-        .then((data) => res.json(data))
-        .catch((error) => res.status(500).json({ message: error }));
-});
-
-//Obtener todos los usuarios:
-router.get('/users', (req, res) => {
-    userSchema
-        .find()
-        .then((data) => res.json(data))
-        .catch((error) => res.status(500).json({ message: error }));
-});
-
-//Acceder a un solo usuario
-router.get('/users/:id', (req, res) => {
-    const {id} = req.params;
-    userSchema
-        .findById(id)
-        .then((data) => res.json(data))
-        .catch((error) => res.status(500).json({ message: error }));
-});
-
-//Actualizar un registro
-router.put('/users/:id', (req, res) => {
-    const {id} = req.params;
-    const {age, email, name} = req.body;
-    userSchema
-        .updateOne({_id:id}, {$set:{age, email, name}})
-        .then((data) => res.json(data))
-        .catch((error) => res.status(500).json({ message: error }));
-});
-
-//Eliminar
-router.delete('/users/:id', (req, res) => {
-    const {id} = req.params;
-    userSchema
-        .remove({_id:id})
-        .then((data) => res.json(data))
-        .catch((error) => res.status(500).json({ message: error }));
-});
+router.post('/user', createUser);
+router.put('/user/:id', editUser);
+router.get('/user/:id', getUser);
+router.delete('/user/:id', deleteUser);
 
 export default router;
