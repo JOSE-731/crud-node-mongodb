@@ -7,8 +7,14 @@ import userSchema from '../models/user.js';
  * @param res - The response object.
  */
 export const getUsers = async (req, res) => {
-    const users = await userSchema.find();
-    res.send(users)
+    try {
+        const [users] = await userSchema.find();
+        res.json(users)
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error en la solicitud"
+        })
+    }
 }
 
 /**
@@ -18,10 +24,16 @@ export const getUsers = async (req, res) => {
  * request query string, parameters, body, HTTP headers, and so on.
  * @param res - The response object.
  */
-export const getUser = async (req, res) =>{
-    const {id} = req.params;
-    const user = await  userSchema.findById(id);
-    res.send(user);
+export const getUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await userSchema.findById(id);
+        res.json(user);
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error en la solicitud"
+        })
+    }
 }
 
 /**
@@ -31,9 +43,15 @@ export const getUser = async (req, res) =>{
  * @param res - The response object.
  */
 export const createUser = async (req, res) => {
-    const user = userSchema(req.body);
-    user.save()
-    res.send(user)
+    try {
+        const user = userSchema(req.body);
+        user.save()
+        res.send(user)
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error en la solicitud de creacion del usuario"
+        })
+    }
 }
 
 /**
@@ -43,11 +61,17 @@ export const createUser = async (req, res) => {
  * @param res - {
  */
 export const editUser = async (req, res) => {
-    const { id } = req.params;
-    const { age, email, name } = req.body;
+    try {
+        const { id } = req.params;
+        const { age, email, name } = req.body;
 
-    const editUser = await userSchema.updateOne({ _id: id }, { $set: { age, email, name } });
-    res.send(editUser)
+        const editUser = await userSchema.updateOne({ _id: id }, { $set: { age, email, name } });
+        res.send(editUser)
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error en la edicion del usuario"
+        })
+    }
 }
 
 /**
@@ -55,8 +79,14 @@ export const editUser = async (req, res) => {
  * @param req - request
  * @param res - The response object.
  */
-export const deleteUser = async (req, res) =>{
-    const {id} = req.params;
-    const deleteUser = await  userSchema.remove({_id:id});
-    res.send(deleteUser)
+export const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deleteUser = await userSchema.remove({ _id: id });
+        res.send(deleteUser)
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error al eliminar el usuario"
+        })
+    }
 }
