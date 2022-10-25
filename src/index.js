@@ -11,6 +11,13 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use('/api/v1/', userRoutes);
 
+/* This is a middleware that is executed when the route is not found. */
+app.use((req, res, next) =>{
+    res.status(404).json({
+        message: "Ruta no encontrada"
+    })
+})
+
 //Route
 app.get("/api", (req, res) => {
     res.send("Hola mundo");

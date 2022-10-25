@@ -7,8 +7,8 @@ import userSchema from '../models/user.js';
  * @param res - The response object.
  */
 export const getUsers = async (req, res) => {
+    const [users] = await userSchema.find();
     try {
-        const [users] = await userSchema.find();
         res.json(users)
     } catch (error) {
         return res.status(500).json({
@@ -25,8 +25,8 @@ export const getUsers = async (req, res) => {
  * @param res - The response object.
  */
 export const getUser = async (req, res) => {
+    const { id } = req.params;
     try {
-        const { id } = req.params;
         const user = await userSchema.findById(id);
         res.json(user);
     } catch (error) {
@@ -43,8 +43,8 @@ export const getUser = async (req, res) => {
  * @param res - The response object.
  */
 export const createUser = async (req, res) => {
+    const user = userSchema(req.body);
     try {
-        const user = userSchema(req.body);
         user.save()
         res.send(user)
     } catch (error) {
@@ -61,9 +61,9 @@ export const createUser = async (req, res) => {
  * @param res - {
  */
 export const editUser = async (req, res) => {
+    const { id } = req.params;
+    const { age, email, name } = req.body;
     try {
-        const { id } = req.params;
-        const { age, email, name } = req.body;
 
         const editUser = await userSchema.updateOne({ _id: id }, { $set: { age, email, name } });
         res.send(editUser)
@@ -80,8 +80,8 @@ export const editUser = async (req, res) => {
  * @param res - The response object.
  */
 export const deleteUser = async (req, res) => {
+    const { id } = req.params;
     try {
-        const { id } = req.params;
         const deleteUser = await userSchema.remove({ _id: id });
         res.send(deleteUser)
     } catch (error) {
