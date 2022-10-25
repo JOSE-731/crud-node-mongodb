@@ -1,7 +1,11 @@
-const express = require('express');
-const userSchema = require('../models/user');
+import express from 'express';
+import  userSchema from '../models/user.js';
+import {getUsers} from '../controllers/users.controller.js'
 
 const router = express.Router();
+
+//Test
+router.get('/users', getUsers);
 
 //Creando usuarios
 router.post('/users', (req, res) => {
@@ -49,5 +53,4 @@ router.delete('/users/:id', (req, res) => {
         .catch((error) => res.status(500).json({ message: error }));
 });
 
-
-module.exports = router;
+export default router;

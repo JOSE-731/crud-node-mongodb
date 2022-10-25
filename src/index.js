@@ -1,8 +1,8 @@
-const express = require('express');
-const config = require('../config/config');
-const userRoutes = require('./routes/user');
+import express from 'express';
+import config from '../config/config.js';
+import  userRoutes  from './routes/user.js';
 
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const app = express();
 const port = process.env.PORT || 3000;
 
